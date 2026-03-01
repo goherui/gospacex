@@ -47,11 +47,7 @@ func main() {
 		log.Printf("获取服务失败: %v", err)
 	} else {
 		log.Printf("找到 %d 个服务实例", len(services))
-		for _, srv := range services {
-			log.Printf("  - 实例: ID=%s, Address=%s, Port=%d", srv.ID, srv.Address, srv.Port)
-		}
 	}
-	log.Println("\n2. 使用负载均衡获取服务实例:")
 	srv, err := initializer.GetServiceWithLoadBalancer(config.GlobalConfig.Consul.ServiceName)
 	if err != nil {
 		log.Printf("获取服务失败: %v", err)
@@ -59,15 +55,11 @@ func main() {
 		address := fmt.Sprintf("%s:%d", srv.Address, srv.Port)
 		log.Printf("负载均衡选择的服务: %s", address)
 	}
-	log.Println("\n3. 获取所有注册的服务:")
 	allServices, err := initializer.GetAllServices()
 	if err != nil {
 		log.Printf("获取所有服务失败: %v", err)
 	} else {
-		log.Printf("找到 %d 个服务类型", len(allServices))
-		for serviceName, instances := range allServices {
-			log.Printf("  - 服务 %s: %d 个实例", serviceName, len(instances))
-		}
+		log.Printf("找到 %d 个注册服务的类型", len(allServices))
 	}
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
