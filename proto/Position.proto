@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package stream;
+
+option go_package = "./";
+
+message PosCreateReq {
+  string title = 1;
+  string company=2;
+  string salary=3;
+  string location=4;
+  string description=5;
+  string requirements=6;
+}
+message PosCreateResp {
+  int64 code=1;
+  string msg = 2;
+}
+
+message PosDelReq {
+  int64 id = 1;
+}
+message PosDelResp {
+  int64 code=1;
+  string msg = 2;
+}
+
+message PosUpdateReq {
+  string title = 1;
+  string company=2;
+  string salary=3;
+  string location=4;
+  string description=5;
+  string requirements=6;
+  int64 id = 7;
+}
+message PosUpdateResp {
+  int64 code=1;
+  string msg = 2;
+}
+
+message PosListReq {
+  int64 page = 1;
+  int64 size=2;
+}
+message PosListResp {
+  repeated Position list=1;
+  int64 code=2;
+  string msg = 3;
+}
+message Position {
+  int64 id=1;
+  string title = 2;
+  string company=3;
+  string salary=4;
+  string location=5;
+  string description=6;
+  string requirements=7;
+}
+service StreamGreeter {
+  rpc PosCreate(PosCreateReq) returns (PosCreateResp);
+  rpc PosDel(PosDelReq) returns (PosDelResp);
+  rpc PosUpdate(PosUpdateReq) returns (PosUpdateResp);
+  rpc PosList(PosListReq) returns (PosListResp);
+}

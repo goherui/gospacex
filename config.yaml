@@ -1,0 +1,13 @@
+Mysql:
+  Host: "115.190.54.31"
+  Port: 3306
+  User: "root"
+  Password: "4ay1nkal3u8ed77y"
+  Database: "gospacex"
+
+Consul:
+  Host: "115.190.54.31"
+  Port: 8500
+  ServiceName: "Pos-service"
+  ServicePort: 50051
+  TTL: 30
