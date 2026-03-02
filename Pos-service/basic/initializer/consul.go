@@ -22,20 +22,16 @@ var (
 
 // InitConsul 初始化Consul并注册服务
 func InitConsul() error {
-	// 创建Consul客户端
 	consulConfig := api.DefaultConfig()
 	consulConfig.Address = fmt.Sprintf("%s:%d", config.GlobalConfig.Consul.Host, config.GlobalConfig.Consul.Port)
-
 	var err error
 	if consulClient, err = api.NewClient(consulConfig); err != nil {
 		return fmt.Errorf("创建Consul客户端失败: %w", err)
 	}
-	// 初始化服务缓存
+
 	serviceCache = make(map[string][]*api.AgentService)
-	// 生成服务ID
 	serviceID = fmt.Sprintf("%s-%d", config.GlobalConfig.Consul.ServiceName, time.Now().Unix())
 	checkID := fmt.Sprintf("%s-health", serviceID)
-	// 注册服务
 	registration := &api.AgentServiceRegistration{
 		ID:      serviceID,
 		Name:    config.GlobalConfig.Consul.ServiceName,
@@ -89,7 +85,6 @@ func DeregisterService() error {
 
 // GetService 获取服务实例列表
 func GetService(serviceName string) ([]*api.AgentService, error) {
-	// 先尝试从缓存获取
 	cacheMutex.RLock()
 	if time.Now().Before(cacheExpiration) && serviceCache != nil {
 		if services, ok := serviceCache[serviceName]; ok {
@@ -98,7 +93,6 @@ func GetService(serviceName string) ([]*api.AgentService, error) {
 		}
 	}
 	cacheMutex.RUnlock()
-	// 缓存过期或不存在，重新获取
 	services, err := consulClient.Agent().Services()
 	if err != nil {
 		return nil, fmt.Errorf("获取服务列表失败: %w", err)
@@ -109,7 +103,6 @@ func GetService(serviceName string) ([]*api.AgentService, error) {
 			serviceInstances = append(serviceInstances, service)
 		}
 	}
-	// 更新缓存
 	cacheMutex.Lock()
 	serviceCache[serviceName] = serviceInstances
 	cacheExpiration = time.Now().Add(cacheDuration)
@@ -119,7 +112,6 @@ func GetService(serviceName string) ([]*api.AgentService, error) {
 
 // GetServiceWithLoadBalancer 带负载均衡的服务获取
 func GetServiceWithLoadBalancer(serviceName string) (*api.AgentService, error) {
-	// 获取健康的服务实例
 	healthyServices, err := GetHealthyService(serviceName)
 	if err != nil {
 		return nil, err
@@ -127,7 +119,6 @@ func GetServiceWithLoadBalancer(serviceName string) (*api.AgentService, error) {
 	if len(healthyServices) == 0 {
 		return nil, fmt.Errorf("没有可用的健康服务实例")
 	}
-	// 随机负载均衡
 	randomIndex := rand.Intn(len(healthyServices))
 	return healthyServices[randomIndex], nil
 }
