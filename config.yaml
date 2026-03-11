@@ -1,0 +1,31 @@
+Nacos:
+  Addr: "115.190.54.31"
+  Port: 8848
+  Namespace: ""
+  DataID: "demo-config"
+  Group: "DEFAULT_GROUP"
+  Username: "nacos"
+  Password: "nacos"
+
+Mysql:
+  Host: "115.190.54.31"
+  Port: 3306
+  User: "root"
+  Password: "4ay1nkal3u8ed77y"
+  Database: "gospacex"
+
+Redis:
+  Host: "115.190.54.31"
+  Port: 6379
+  Password: "4ay1nkal3u8ed77y"
+  Database: 0
+
+Es:
+  Host: "http://115.190.54.31:9200"
+
+Consul:
+  Host: "115.190.54.31"
+  Port: 8500
+  ServiceName: "order-service"
+  ServicePort: 50051
+  TTL: 10

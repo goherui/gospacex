@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package stream;
+
+option go_package = "./";
+
+message OrderCreateReq {
+  string orderNo=1;
+  uint64 userID=2;
+  int64 orderStatus=4;
+  int64 paymentStatus=5;
+  int64 totalAmount=6;
+  int64 paidAmount=7;
+  string consigneeName=8;
+  string consigneePhone=9;
+  string address=10;
+  string remark=11;
+  string shipmentNo=12;
+  string expressName=13;
+}
+message OrderCreateResp {
+  int64 code=1;
+  string msg = 2;
+}
+
+message OrderDelReq {
+  int64 id=1;
+}
+message OrderDelResp {
+  int64 code=1;
+  string msg = 2;
+}
+
+message OrderUpdateReq {
+  string orderNo=1;
+  uint64 userID=2;
+  int64 orderStatus=4;
+  int64 paymentStatus=5;
+  int64 totalAmount=6;
+  int64 paidAmount=7;
+  string consigneeName=8;
+  string consigneePhone=9;
+  string address=10;
+  string remark=11;
+  string shipmentNo=12;
+  string expressName=13;
+  int64 id=14;
+}
+message OrderUpdateResp {
+  int64 code=1;
+  string msg = 2;
+}
+
+message OrderListReq {
+  int64 page=1;
+  int64 size = 2;
+}
+message OrderListResp {
+  repeated Order list=1;
+  int64 code=2;
+  string msg = 3;
+}
+message Order {
+  string orderNo=1;
+  uint64 userID=2;
+  int64 orderStatus=4;
+  int64 paymentStatus=5;
+  int64 totalAmount=6;
+  int64 paidAmount=7;
+  string consigneeName=8;
+  string consigneePhone=9;
+  string address=10;
+  string remark=11;
+  string shipmentNo=12;
+  string expressName=13;
+}
+
+service StreamGreeter {
+  rpc OrderCreate(OrderCreateReq) returns (OrderCreateResp);
+  rpc OrderDel(OrderDelReq) returns (OrderDelResp);
+  rpc OrderUpdate(OrderUpdateReq) returns (OrderUpdateResp);
+  rpc OrderList(OrderListReq) returns (OrderListResp);
+}
