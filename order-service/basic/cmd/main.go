@@ -33,7 +33,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	services, err := initializer.GetServiceWithLoadBalancer("user-service")
+	services, err := initializer.GetServiceWithLoadBalancer("order-service")
 	if err != nil {
 		log.Printf("获取用户服务失败: %v", err)
 	} else {
