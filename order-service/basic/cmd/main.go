@@ -33,7 +33,6 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	// 尝试获取用户服务（可选）
 	services, err := initializer.GetServiceWithLoadBalancer("user-service")
 	if err != nil {
 		log.Printf("获取用户服务失败: %v", err)
@@ -41,23 +40,17 @@ func main() {
 		log.Printf("获取到用户服务: %s, 地址: %s:%d", services.Service, services.Address, services.Port)
 	}
 
-	// 无论获取服务是否成功，都启动gRPC服务
 	s := grpc.NewServer()
 	__.RegisterStreamGreeterServer(s, &service.Server{})
 	log.Printf("server listening at %v", lis.Addr())
-
 	go func() {
 		if err := s.Serve(lis); err != nil {
 			log.Fatalf("failed to serve: %v", err)
 		}
 	}()
-
-	// 等待系统信号
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
-
-	// 优雅关闭
 	log.Println("正在关闭服务...")
 	if err := initializer.ConsulShutdown(); err != nil {
 		log.Printf("Consul注销失败: %v", err)
@@ -67,17 +60,3 @@ func main() {
 	s.GracefulStop()
 	log.Println("服务已关闭")
 }
-
-//func main() {
-//	flag.Parse()
-//	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
-//	if err != nil {
-//		log.Fatalf("failed to listen: %v", err)
-//	}
-//	s := grpc.NewServer()
-//	__.RegisterStreamGreeterServer(s, &service.Server{})
-//	log.Printf("server listening at %v", lis.Addr())
-//	if err := s.Serve(lis); err != nil {
-//		log.Fatalf("failed to serve: %v", err)
-//	}
-//}

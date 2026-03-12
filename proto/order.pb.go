@@ -497,6 +497,8 @@ type OrderListReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Page          int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
 	Size          int64                  `protobuf:"varint,2,opt,name=size,proto3" json:"size,omitempty"`
+	OrderNo       string                 `protobuf:"bytes,3,opt,name=orderNo,proto3" json:"orderNo,omitempty"`
+	UserID        int64                  `protobuf:"varint,4,opt,name=userID,proto3" json:"userID,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -541,6 +543,20 @@ func (x *OrderListReq) GetPage() int64 {
 func (x *OrderListReq) GetSize() int64 {
 	if x != nil {
 		return x.Size
+	}
+	return 0
+}
+
+func (x *OrderListReq) GetOrderNo() string {
+	if x != nil {
+		return x.OrderNo
+	}
+	return ""
+}
+
+func (x *OrderListReq) GetUserID() int64 {
+	if x != nil {
+		return x.UserID
 	}
 	return 0
 }
@@ -789,10 +805,12 @@ const file_order_proto_rawDesc = "" +
 	"\x02id\x18\x0e \x01(\x03R\x02id\"7\n" +
 	"\x0fOrderUpdateResp\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
-	"\x03msg\x18\x02 \x01(\tR\x03msg\"6\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\"h\n" +
 	"\fOrderListReq\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x12\n" +
-	"\x04size\x18\x02 \x01(\x03R\x04size\"X\n" +
+	"\x04size\x18\x02 \x01(\x03R\x04size\x12\x18\n" +
+	"\aorderNo\x18\x03 \x01(\tR\aorderNo\x12\x16\n" +
+	"\x06userID\x18\x04 \x01(\x03R\x06userID\"X\n" +
 	"\rOrderListResp\x12!\n" +
 	"\x04list\x18\x01 \x03(\v2\r.stream.OrderR\x04list\x12\x12\n" +
 	"\x04code\x18\x02 \x01(\x03R\x04code\x12\x10\n" +

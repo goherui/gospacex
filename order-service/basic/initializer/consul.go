@@ -111,7 +111,6 @@ func UpdateServiceCache() {
 	cacheExpiration = time.Now().Add(cacheDuration)
 }
 
-// ConsulShutdown 优雅退出，从Consul中注销服务
 func ConsulShutdown() error {
 	if consulClient == nil {
 		return nil

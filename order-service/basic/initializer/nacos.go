@@ -58,6 +58,7 @@ func NacosInit() {
 	if err != nil {
 		panic(err)
 	}
+
 	fmt.Println("从nacos读取到的内容\n", configContent)
 	config.GlobalConfig = &config.AppConfig{}
 	nacosViper := viper.New()

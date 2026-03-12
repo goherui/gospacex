@@ -54,6 +54,8 @@ message OrderUpdateResp {
 message OrderListReq {
   int64 page=1;
   int64 size = 2;
+  string orderNo=3;
+  int64 userID=4;
 }
 message OrderListResp {
   repeated Order list=1;

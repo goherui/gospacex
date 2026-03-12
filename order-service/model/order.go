@@ -49,6 +49,13 @@ func (o *Order) FindOrderList(db *gorm.DB, in *__.OrderListReq) ([]Order, error)
 		err := db.Offset(int(offset)).Limit(int(in.Size)).Find(&list).Error
 		return list, err
 	}
-	err := db.Find(&list).Error
+	query := db
+	if in.OrderNo != "" {
+		query = query.Where("order_no LIKE ?", "%"+in.OrderNo+"%")
+	}
+	if in.UserID != 0 {
+		query = query.Where("user_id=?", in.UserID)
+	}
+	err := query.Find(&list).Error
 	return list, err
 }
