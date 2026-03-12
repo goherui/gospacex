@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gospacex/web"
+	"github.com/goherui/gospacex/web"
 	"log"
 	"os"
 	"os/signal"
